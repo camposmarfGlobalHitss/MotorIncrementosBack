@@ -74,7 +74,7 @@ public class LoginController {
 	public String ejecutarjob() {
 		String retorno = "";
 		try {
-			System.out.println("entro al controller");
+			
 			retorno=  loginFachada.ejecutarJob();
 		} catch (Exception e) {
 			// TODO: handle exception
