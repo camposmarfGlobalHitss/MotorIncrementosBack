@@ -1,13 +1,17 @@
 package com.mit.utils;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-import javax.swing.JOptionPane;
 
+
+
+@Component
 public class EncodeDecodePass {
 	
 	private String LLAVE = "MotorIncrementos2021";
@@ -22,8 +26,7 @@ public class EncodeDecodePass {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             cadena = md.digest(cadena);
             cadena = Arrays.copyOf(cadena, 16);
-            SecretKeySpec secretKeySpec = new SecretKeySpec(cadena, "AES");
-            return secretKeySpec;
+            return new SecretKeySpec(cadena, "AES");
         } catch (Exception e) {
             return null;
         }
@@ -38,10 +41,9 @@ public class EncodeDecodePass {
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
             
-            byte [] cadena = encriptar.getBytes("UTF-8");
+            byte [] cadena = encriptar.getBytes(StandardCharsets.UTF_8);
             byte [] encriptada = cipher.doFinal(cadena);
-            String cadena_encriptada = Base64.encodeBase64String(encriptada);
-            return cadena_encriptada;
+            return Base64.encodeBase64String(encriptada);
             
             
             
@@ -51,7 +53,7 @@ public class EncodeDecodePass {
     }
 
     // Des-encriptación
-     public String Desencriptar(String desencriptar) {
+     public String desencriptar(String desencriptar) {
      
         try {
             SecretKeySpec secretKeySpec = CrearClave(LLAVE);
@@ -60,11 +62,10 @@ public class EncodeDecodePass {
             
             byte [] cadena = Base64.decodeBase64(desencriptar);
             byte [] desencriptacioon = cipher.doFinal(cadena);
-            String cadena_desencriptada = new String(desencriptacioon);
-            return cadena_desencriptada;
+            return new String(desencriptacioon);
             
         } catch (Exception e) {
-            return "";
+            return e.getMessage();
         }
     }
 

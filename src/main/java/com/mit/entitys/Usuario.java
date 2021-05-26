@@ -44,6 +44,24 @@ public class Usuario {
 	@Column(name="COD_PERFIL", nullable = false, length = 2)
 	private int codperfil;
 
+	@Column(name="CORREO" , nullable = true, length = 60)
+	private String correo;
+
+	@Column(name="NOMBRE_COMPLETO" , nullable = true, length = 60)
+	private String nombrecompleto;
+	
+	@Column(name="CODIGO_VERIFICACION" , nullable = true, length = 66)
+	private String codigoverificacion;
+
+
+	public String getCodigoverificacion() {
+		return codigoverificacion;
+	}
+
+	public void setCodigoverificacion(String codigoverificacion) {
+		this.codigoverificacion = codigoverificacion;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -98,6 +116,22 @@ public class Usuario {
 
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
+	}	
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getNombrecompleto() {
+		return nombrecompleto;
+	}
+
+	public void setNombrecompleto(String nombrecompleto) {
+		this.nombrecompleto = nombrecompleto;
 	}
 
 	public int getEstado() {
