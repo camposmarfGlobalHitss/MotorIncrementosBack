@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.mit.entitys.CalculoIncremento;
 import com.mit.entitys.Reglas;
 import com.sun.el.stream.Optional;
 
@@ -20,5 +21,11 @@ public interface IReglasFachada {
 	ResponseEntity<String> actualizarCondicion(Reglas regla);
 
 	ResponseEntity<String> borrarCondicion(Long id) throws Exception;
+
+	ResponseEntity<String> extraccionCuentas() throws Exception;
+
+	ResponseEntity<List<CalculoIncremento>> traerCuentasPostExtraccion() throws Exception;
+
+	ResponseEntity<List<CalculoIncremento>> validarCondiciones() throws Exception;
 
 }

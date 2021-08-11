@@ -1,5 +1,6 @@
 package com.mit.fachadaimpl;
 
+import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.mit.dao.ICalculoIncrementoDao;
 import com.mit.dao.IReglaDao;
+import com.mit.entitys.CalculoIncremento;
 import com.mit.entitys.Reglas;
 import com.mit.fachada.IReglasFachada;
 
@@ -25,6 +28,9 @@ public class ReglasFachadaImpl implements IReglasFachada{
 	@Autowired
 	private IReglaDao reglaDao;
 	
+	@Autowired
+	private ICalculoIncrementoDao calculoDao;
+	
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -35,12 +41,13 @@ public class ReglasFachadaImpl implements IReglasFachada{
 				.registerStoredProcedureParameter(2, String.class, ParameterMode.OUT)
 				.setParameter(1, "");
 		spq.execute();
+
+		
 		
 		return (String) spq.getOutputParameterValue(2);
 		
-
-		
 	}
+	
 
 	@Override
 	public ResponseEntity<String> chequearCondicion(String condicion) throws Exception {
@@ -57,7 +64,11 @@ public class ReglasFachadaImpl implements IReglasFachada{
 
 	@Override
 	public Reglas crearCondicion(Reglas regla) throws Exception {
-		return reglaDao.save(regla);
+		
+		Reglas reglas = reglaDao.save(regla);
+		StoredProcedureQuery spq = em.createStoredProcedureQuery("IMT_VALIDA_CONDICIONES_SP");
+		spq.execute();
+		return reglas;
 	}
 
 	@Override
@@ -81,11 +92,40 @@ public class ReglasFachadaImpl implements IReglasFachada{
 	public ResponseEntity<String> borrarCondicion(Long id) throws Exception {
 		Optional<Reglas> result =  reglaDao.findById(id);
 		if(result.isPresent()) {
-			reglaDao.delete(result.get());			
+			reglaDao.delete(result.get());
+			StoredProcedureQuery spq = em.createStoredProcedureQuery("IMT_VALIDA_CONDICIONES_SP");
+			spq.execute();			
 			return new ResponseEntity<>("CONDICION BORRADA CORRECTAMENTE",HttpStatus.OK);
 		}else {
+			
 			return new ResponseEntity<>("Error en la operacion solicitada",HttpStatus.NOT_FOUND);
 		}
+	}
+
+
+	@Override
+	public ResponseEntity<String> extraccionCuentas() throws Exception {
+		StoredProcedureQuery spq = em.createStoredProcedureQuery("imt_reglas_pkg.pr_aplicacion_reglas_extraccion");
+		spq.execute();
+		return new ResponseEntity<String>("EXTRACCION GENERADA CORRECTAMENTE",HttpStatus.OK);
+						
+	}
+
+
+	@Override
+	public ResponseEntity<List<CalculoIncremento>> traerCuentasPostExtraccion() throws Exception {
+		List<CalculoIncremento> list = (List<CalculoIncremento>) calculoDao.findAll();
+		return new ResponseEntity<List<CalculoIncremento>>(list, HttpStatus.OK);
+		
+	}
+
+
+	@Override
+	public ResponseEntity<List<CalculoIncremento>> validarCondiciones() throws Exception {
+
+		List<CalculoIncremento> list = (List<CalculoIncremento>) calculoDao.findAll();
+		
+		return new ResponseEntity<List<CalculoIncremento>>(list, HttpStatus.OK);
 	}
 
 }

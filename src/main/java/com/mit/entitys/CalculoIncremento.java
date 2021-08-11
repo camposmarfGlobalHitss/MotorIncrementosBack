@@ -8,11 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "IMT_TBL_CALCULO_INCREMENTO")
+@Table(name = "IMT_TBL_CALCULO_INCREMENTO_V2")
 public class CalculoIncremento {
 	
 	@Id
-	@Column(name="ID_CAL_INCRTO", nullable=false, length=15) 
+	@Column(name="ID_CAL_INCRTO", nullable=true, length=15) 
 	private Long ID_CAL_INCRTO;
 
 	@Column(name="ID_EJEC_PROC", nullable=true, length=10) 
