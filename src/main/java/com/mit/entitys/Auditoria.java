@@ -80,6 +80,20 @@ public class Auditoria {
 	public void setCantidadRegistros(String cantidadRegistros) {
 		this.cantidadRegistros = cantidadRegistros;
 	}
+
+	public Auditoria(String nombreAccion, String nombreObjeto, String nombreUsuario, Date fechaProceso,
+			String cantidadRegistros) {
+		super();
+		this.nombreAccion = nombreAccion;
+		this.nombreObjeto = nombreObjeto;
+		this.nombreUsuario = nombreUsuario;
+		this.fechaProceso = fechaProceso;
+		this.cantidadRegistros = cantidadRegistros;
+	}
+
+	public Auditoria() {
+		super();
+	}
 	
 	
 	

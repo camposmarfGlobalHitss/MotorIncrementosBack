@@ -4,11 +4,12 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mit.entitys.Auditoria;
 
-
+@Repository
 public interface IExtractInfoDao extends CrudRepository<Auditoria, Long> {
 	
 	@Query(value="SELECT * \r\n" + 
