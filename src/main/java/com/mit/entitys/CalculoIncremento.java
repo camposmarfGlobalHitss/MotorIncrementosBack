@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "IMT_TBL_CALCULO_INCREMENTO_V2")
+@Table(name = "IMT_TBL_CALCULO_INCREMENTO")
 public class CalculoIncremento {
 	
 	@Id

@@ -27,16 +27,21 @@ import com.mit.dao.IAuditoriaDao;
 import com.mit.dao.ICalculoIncrementoDao;
 import com.mit.dao.IExclusionesDao;
 import com.mit.dao.IMovilRangosIncrementoDao;
+import com.mit.dao.IParametrosDao;
 import com.mit.dao.IParametrosIncrementosFija;
+import com.mit.dao.IUsuarioDao;
 import com.mit.dao.IUvtsDao;
 import com.mit.entitys.Auditoria;
 import com.mit.entitys.Exclusiones;
 import com.mit.entitys.MovilRangosIncremento;
+import com.mit.entitys.ParametrosCalculoFija;
+import com.mit.entitys.ParametrosCalculoMovil;
 import com.mit.entitys.ParametrosIncrementoFija;
 import com.mit.entitys.Uvts;
 import com.mit.fachada.ICalculoIncremento;
 
 import local_project.actualizar_imt_tbl_movil_producto_subtipo_oferta_0_1.Actualizar_IMT_TBL_MOVIL_PRODUCTO_SUBTIPO_OFERTA;
+import local_project.job_archivo_salida_e_0_1.Job_Archivo_Salida_E;
 
 @Service
 public class CalculoIncrementoFachadaImpl implements ICalculoIncremento {
@@ -55,6 +60,12 @@ public class CalculoIncrementoFachadaImpl implements ICalculoIncremento {
 	
 	@Autowired
 	private IUvtsDao uvtsDao;
+	
+	@Autowired
+	private IParametrosDao paramDao;
+	
+	@Autowired
+	private IUsuarioDao usuDao;
 	
 	@PersistenceContext
 	private EntityManager em;
@@ -154,6 +165,7 @@ public class CalculoIncrementoFachadaImpl implements ICalculoIncremento {
 				.setParameter(4, uvt.getFEC_FIN_VIGENCIA())
 				.setParameter(5, uvt.getUSER_CREA());
 		boolean result = spq.execute();
+		em.close();
 		return new ResponseEntity<String>(spq.getOutputParameterValue(6).toString(),HttpStatus.OK);			
 		
 		
@@ -182,6 +194,74 @@ public class CalculoIncrementoFachadaImpl implements ICalculoIncremento {
 		}else {
 			return new ResponseEntity<String>("Error realizando la operacion", HttpStatus.INTERNAL_SERVER_ERROR);
 		}		
+	}
+
+	@Override
+	public ResponseEntity<String> ejecutarCIM(ParametrosCalculoMovil calculoMovil) throws Exception {
+		int prueba = 0;
+		ParametrosCalculoMovil pcm = calculoMovil;
+		StoredProcedureQuery spq = em.createStoredProcedureQuery("Imt_Incremento_Por_Porcentaje_Para_Movil_X_Contrato_Sp")
+				.registerStoredProcedureParameter(1, double.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(2, double.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(3, double.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(4, double.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(5, int.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(6, int.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(7, double.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(8, String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(9, int.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(10, String.class, ParameterMode.IN)
+				.setParameter(1, calculoMovil.getIva())
+				.setParameter(2, calculoMovil.getImpoconsumo())
+				.setParameter(3, calculoMovil.getPorcion_datos())
+				.setParameter(4, calculoMovil.getPorcion_voz())
+				.setParameter(5, calculoMovil.getUnidad_redondeo())
+				.setParameter(6, calculoMovil.getVigencia_uvt())
+				.setParameter(7, calculoMovil.getIncremento_usos_por_defecto())
+				.setParameter(8, calculoMovil.getTipo_redondeo_usos())
+				.setParameter(9, calculoMovil.getFrecuencia_commit())
+				.setParameter(10, calculoMovil.getEstado_a_calcular());
+		spq.execute();
+		em.close();
+		return new ResponseEntity<String>("Ejecucion Calculo Incremento Movil Realizada Correctamente!!",HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<String> ejecutarCIF(ParametrosCalculoFija calculoFija) throws Exception {
+		StoredProcedureQuery spq = em.createStoredProcedureQuery("Imt_Incremento_Para_Fija_X_No_Referencia_Multiplay_Sp")
+				.registerStoredProcedureParameter(1, double.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(2, double.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(3, int.class, ParameterMode.IN)
+				.registerStoredProcedureParameter(4, String.class, ParameterMode.IN)
+				.setParameter(1, calculoFija.getIva_oficial())
+				.setParameter(2, calculoFija.getIncremento_maximo())
+				.setParameter(3, calculoFija.getFrecuencia_commit())
+				.setParameter(4, calculoFija.getEstado_a_calcular());
+		spq.execute();
+		em.close();
+		return new ResponseEntity<String>("Ejecucion Calculo Incremento Fija Realizado Correctamente",HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<String> generarArchivoPLM() throws Exception {
+		String ruta = System.getProperty("user.home")+File.separator+"Downloads"+File.separator;
+		paramDao.guardarRuta(ruta);
+		Job_Archivo_Salida_E job = new Job_Archivo_Salida_E();
+		int exitcode = job.runJobInTOS(new String[] {});
+		if(exitcode == 0) {
+			return new ResponseEntity<String>("Descarga Relizada correctamente en la ruta: "+System.getProperty("user.home")+File.separator+"Downloads"+File.separator,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<String>("Se ha producido un error en la operacion",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
+
+	@Override
+	public List<String> prueba2() throws Exception {
+		List<String> list = new ArrayList<String>();
+		list = usuDao.queryPersonalizada();
+		
+		return list;
 	}
 	
 	

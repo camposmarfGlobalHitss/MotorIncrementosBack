@@ -11,7 +11,7 @@ import com.mit.entitys.CalculoIncremento;
 @Repository
 public interface ICalculoIncrementoDao extends CrudRepository<CalculoIncremento, Long> {
 
-	@Query(value = "SELECT NO_REFERENCIA, COD_ID, ID_CLIENTE, ID_TIP_DOC, IDEN_CLIE FROM IMT_TBL_CALCULO_INCREMENTO_V2 "
+	@Query(value = "SELECT NO_REFERENCIA, COD_ID, ID_CLIENTE, ID_TIP_DOC, IDEN_CLIE FROM IMT_TBL_CALCULO_INCREMENTO"
 			+ "WHERE NO_REFERENCIA = ?1 AND ID_CLIENTE = ?2",nativeQuery = true)
 	CalculoIncremento consultaEspecial(String NoReferencia, String idCliente);
 	
