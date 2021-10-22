@@ -15,6 +15,8 @@ public interface IExtractInfoFachada {
 
 	String extractProductoOferta() throws Exception;
 
+	String extractCsOffers() throws Exception;
+
 	
 
 }

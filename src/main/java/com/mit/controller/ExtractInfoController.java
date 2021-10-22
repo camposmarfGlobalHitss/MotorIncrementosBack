@@ -92,7 +92,34 @@ public class ExtractInfoController {
 		return null;
 	}
 	
-	
+
+	/**
+	 * <b>Nombre: </b> extractCsOffers </br>
+	 * <b>Descripcion:</b> extractCsOffers </br>
+	 * <b>Fecha Creacion:</b> 01/10/2020 </br>
+	 * <b>Autor:</b> rodriguezorlb </br>
+	 * <b>Fecha de ultima Modificacion: </b></br>
+	 * <b>Modificado por: </b></br>
+	 * <b>Brief: llamado al jar que ejecuta la extraccion de CsOffers</b></br>
+	 */
+	@GetMapping("extractCsOffers")
+	public ResponseEntity<String> EjecutarExtracccionCsOffers() {
+		try {
+			String result = extractinfo.extractCsOffers();
+			if(result.equals("OK")) {
+				return new ResponseEntity<>("OK", HttpStatus.OK);
+			}else {
+				return new ResponseEntity<>("Error Extraccion CsOffers", HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+
+			
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(AuditoriaController.class.getName());
+			logger.log(Level.SEVERE,e.getMessage());
+		}
+		
+		return null;
+	}
 	
 
 	
