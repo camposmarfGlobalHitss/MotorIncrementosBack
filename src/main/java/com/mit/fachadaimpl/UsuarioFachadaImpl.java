@@ -87,9 +87,7 @@ public class UsuarioFachadaImpl implements IUsuarioFachada {
 				}
 			}else {
 				return new ResponseEntity<>("Error al enviar email", HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-			
-				
+			}				
 		}else {
 			return new ResponseEntity<>("Error servidor", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
