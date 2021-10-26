@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mit.entitys.Exclusiones;
 import com.mit.entitys.MovilRangosIncremento;
+import com.mit.entitys.ParametrosCalculoFija;
+import com.mit.entitys.ParametrosCalculoMovil;
 import com.mit.entitys.ParametrosIncrementoFija;
 import com.mit.entitys.Uvts;
 
@@ -36,6 +38,14 @@ public interface ICalculoIncremento {
 	ResponseEntity<String> obtenerUltimaActualizacionPSO() throws Exception;
 
 	ResponseEntity<String> actualizarPso(String usuario) throws Exception;
+
+	ResponseEntity<String> ejecutarCIM(ParametrosCalculoMovil calculoMovil) throws Exception;
+
+	ResponseEntity<String> ejecutarCIF(ParametrosCalculoFija calculoFija)throws Exception;
+
+	ResponseEntity<String> generarArchivoPLM() throws Exception;
+
+	List<String> prueba2() throws Exception;
 	
 	
 

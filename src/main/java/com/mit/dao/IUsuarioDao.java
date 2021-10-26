@@ -18,4 +18,9 @@ public interface IUsuarioDao extends CrudRepository<Usuario, Long>{
 	List<Usuario> getUsuarios();
 
 	
+	@Query(value = "SELECT USER_NAME || ',' ||  DESC_USUARIO || ',' || CORREO || ',' ||  NOMBRE_COMPLETO || ';' FROM IMT_TBL_USUARIOS", nativeQuery = true)
+	@Transactional(readOnly = true)
+	List<String> queryPersonalizada();
+
+	
 }
