@@ -1,5 +1,8 @@
 package com.mit.fachadaimpl;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +14,7 @@ import com.mit.entitys.Auditoria;
 
 import com.mit.fachada.IExtractInfoFachada;
 
+import co.com.claro.imtgetoffers.GetOfferPost;
 import local_project.etl_extract_clientes_bscs_imt_0_1.ETL_EXTRACT_CLIENTES_BSCS_IMT;
 import local_project.etl_extract_contratos_bscs_imt_0_1.ETL_EXTRACT_CONTRATOS_BSCS_IMT;
 import local_project.etl_extract_producto_oferta_bscs_imt_0_1.ETL_EXTRACT_PRODUCTO_OFERTA_BSCS_IMT;
@@ -68,6 +72,32 @@ public class ExtractInfoFachadaImpl implements IExtractInfoFachada{
 		}
 		
 	}
+
+	
+	/**
+	 * <b>Nombre: </b> extractCsOffers </br>
+	 * <b>Descripcion:</b> extractCsOffers </br>
+	 * <b>Fecha Creacion:</b> 01/10/2020 </br>
+	 * <b>Autor:</b> rodriguezorlb </br>
+	 * <b>Fecha de ultima Modificacion: </b></br>
+	 * <b>Modificado por: </b></br>
+	 * <b>Brief: llamado al jar que ejecuta la extraccion de CsOffers en la ubicacion D:\ImtGetOffers_Est - v2\dist\ImtGetOffers.jar</b></br>
+	 */	
+	@Override
+	public String extractCsOffers() throws Exception {
+		ProcessBuilder pb = new ProcessBuilder("java.exe", "-jar" ,"D:\\ImtGetOffers_Est - v2\\dist\\ImtGetOffers.jar");
+		pb.redirectErrorStream(true);
+		Process pr = pb.start(); 
+		BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+		String line;
+		while ((line = in.readLine()) != null) {
+			System.out.println(line);
+		}
+		pr.waitFor();
+		System.out.println("ok!");
+		in.close();
+		return "OK";
+	}	
 	
 	
 
