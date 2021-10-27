@@ -85,7 +85,7 @@ public class ExtractInfoFachadaImpl implements IExtractInfoFachada{
 	 */	
 	@Override
 	public String extractCsOffers() throws Exception {
-		ProcessBuilder pb = new ProcessBuilder("java.exe", "-jar" ,"D:\\ImtGetOffers_Est - v2\\dist\\ImtGetOffers.jar");
+		ProcessBuilder pb = new ProcessBuilder("java.exe", "-jar" ,"libs\\ImtGetOffers.jar");
 		pb.redirectErrorStream(true);
 		Process pr = pb.start(); 
 		BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
