@@ -40,6 +40,7 @@ import com.mit.entitys.ParametrosIncrementoFija;
 import com.mit.entitys.Uvts;
 import com.mit.fachada.ICalculoIncremento;
 
+import archivo_de_entrada_a_eoc.job_archivo_entrada_a_eoc_2_0.Job_Archivo_Entrada_a_EOC;
 import local_project.actualizar_imt_tbl_movil_producto_subtipo_oferta_0_1.Actualizar_IMT_TBL_MOVIL_PRODUCTO_SUBTIPO_OFERTA;
 import local_project.job_archivo_salida_e_0_1.Job_Archivo_Salida_E;
 
@@ -246,10 +247,10 @@ public class CalculoIncrementoFachadaImpl implements ICalculoIncremento {
 	public ResponseEntity<String> generarArchivoPLM() throws Exception {
 		String ruta = System.getProperty("user.home")+File.separator+"Downloads"+File.separator;
 		paramDao.guardarRuta(ruta);
-		Job_Archivo_Salida_E job = new Job_Archivo_Salida_E();
+		Job_Archivo_Entrada_a_EOC job = new Job_Archivo_Entrada_a_EOC();
 		int exitcode = job.runJobInTOS(new String[] {});
 		if(exitcode == 0) {
-			return new ResponseEntity<String>("Descarga Relizada correctamente en la ruta: "+System.getProperty("user.home")+File.separator+"Downloads"+File.separator,HttpStatus.OK);
+			return new ResponseEntity<String>("Descarga Relizada correctamente ",HttpStatus.OK);
 		}else {
 			return new ResponseEntity<String>("Se ha producido un error en la operacion",HttpStatus.INTERNAL_SERVER_ERROR);
 		}

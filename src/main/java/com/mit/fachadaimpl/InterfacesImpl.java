@@ -24,7 +24,7 @@ public class InterfacesImpl implements IInterfaces{
 		if(exitCode==0) {
 			return new ResponseEntity<String>("Reporte Cuentas Incremento generado correctamente en carpeta descargas",HttpStatus.OK);
 		}else {
-			return new ResponseEntity<String>("Error en la generacion del reporte",HttpStatus.OK);
+			return new ResponseEntity<String>("Error en la generacion del reporte",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -35,7 +35,7 @@ public class InterfacesImpl implements IInterfaces{
 		if(exitCode==0) {
 			return new ResponseEntity<String>("Reporte de Cuentas no Incrementadas generado con exito en carpeta de descargas",HttpStatus.OK);
 		}else {
-			return new ResponseEntity<String>("Error en la generacion del reporte",HttpStatus.OK);
+			return new ResponseEntity<String>("Error en la generacion del reporte",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -46,7 +46,7 @@ public class InterfacesImpl implements IInterfaces{
 		if(exitCode==0) {
 			return new ResponseEntity<String>("Reporte Cuentas Sujetas a Incremento Generado Correctamente en Descargas",HttpStatus.OK);
 		}else {
-			return new ResponseEntity<String>("Error en la generacion del reporte",HttpStatus.OK);
+			return new ResponseEntity<String>("Error en la generacion del reporte",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -57,7 +57,7 @@ public class InterfacesImpl implements IInterfaces{
 		if(exitCode==0) {
 			return new ResponseEntity<String>("Reporte Cuentas No Sujetas a Incremento Generado Correctamente en Descargas",HttpStatus.OK);
 		}else {
-			return new ResponseEntity<String>("Error en la generacion del reporte",HttpStatus.OK);
+			return new ResponseEntity<String>("Error en la generacion del reporte",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -68,7 +68,7 @@ public class InterfacesImpl implements IInterfaces{
 		if(exitCode==0) {
 			return new ResponseEntity<String>("Reporte Control Fija y Movil Generado Correctamente en Carpeta Descargas",HttpStatus.OK);
 		}else {
-			return new ResponseEntity<String>("Error en la generacion del reporte",HttpStatus.OK);
+			return new ResponseEntity<String>("Error en la generacion del reporte",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -77,9 +77,9 @@ public class InterfacesImpl implements IInterfaces{
 		Job_Informe_Pre_Incremento job = new Job_Informe_Pre_Incremento();
 		int exitCode = job.runJobInTOS(new String[] {});
 		if(exitCode==0) {
-			return new ResponseEntity<String>("Informe Pre Incremento generado correctamente",HttpStatus.OK);
+			return new ResponseEntity<String>("Informe Pre Incremento generado correctamente en carpeta de Descargas",HttpStatus.OK);
 		}else {
-			return new ResponseEntity<String>("Error en la generacion del reporte",HttpStatus.OK);
+			return new ResponseEntity<String>("Error en la generacion del reporte",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}

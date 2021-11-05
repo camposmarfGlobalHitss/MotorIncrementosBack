@@ -14,7 +14,7 @@ import com.mit.entitys.Auditoria;
 
 import com.mit.fachada.IExtractInfoFachada;
 
-import co.com.claro.imtgetoffers.GetOfferPost;
+
 import local_project.etl_extract_clientes_bscs_imt_0_1.ETL_EXTRACT_CLIENTES_BSCS_IMT;
 import local_project.etl_extract_contratos_bscs_imt_0_1.ETL_EXTRACT_CONTRATOS_BSCS_IMT;
 import local_project.etl_extract_producto_oferta_bscs_imt_0_1.ETL_EXTRACT_PRODUCTO_OFERTA_BSCS_IMT;
