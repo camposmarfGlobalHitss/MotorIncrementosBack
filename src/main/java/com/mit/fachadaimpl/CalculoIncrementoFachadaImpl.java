@@ -265,8 +265,4 @@ public class CalculoIncrementoFachadaImpl implements ICalculoIncremento {
 		return list;
 	}
 	
-	
-
-	
-	
 }
