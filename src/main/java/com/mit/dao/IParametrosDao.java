@@ -18,6 +18,14 @@ public interface IParametrosDao extends CrudRepository<Parametros, Long>{
 	public void guardarRuta(String ruta);
 	
 	
+	/*
+	@Luz.Obredor 14.02.2022
+	método que consulta la ruta del archivo PLM
+	*/
+	@Query(value = "SELECT value_param FROM IMT_TBL_PARAMETROS WHERE key_param = 'Ruta_Archivo_PLM'", nativeQuery = true)
+	@Transactional(readOnly = true)
+	public String obtenerRutaArchivoPLM();	
+	
 	
 
 }

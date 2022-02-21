@@ -67,7 +67,7 @@ public class LoginFachadaImpl implements ILoginFachada {
 		try {
 			EncodeDecodePass utils = new EncodeDecodePass();
 			usuario.setContrasena(utils.Encriptar(usuario.getContrasena()));
-			usuario.setCodigoverificacion(RandomString.make(64));
+			usuario.setCodigoverificacion(RandomString.make(64));			
 			return loginDao.save(usuario);
 		} catch (Exception e) {
 			Logger logger = Logger.getLogger(AuditoriaController.class.getName());
@@ -94,7 +94,6 @@ public class LoginFachadaImpl implements ILoginFachada {
 		}else {
 			return null;
 		}
-		
 		
 	}
 	
