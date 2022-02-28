@@ -39,7 +39,7 @@ public class ExtractInfoController {
 	}
 	
 	
-	@GetMapping("extractInfoClientes")
+	@GetMapping("/extractInfoClientes")
 	public ResponseEntity<String> EjecutarExtracccionClientes() {
 		try {
 			String result = extractinfo.extractClientes();
@@ -57,7 +57,7 @@ public class ExtractInfoController {
 	}
 	
 	
-	@GetMapping("extractInfoContratos")
+	@GetMapping("/extractInfoContratos")
 	public ResponseEntity<String> EjecutarExtracccionContratos() {
 		try {
 			String result = extractinfo.extractContratos();
@@ -75,7 +75,7 @@ public class ExtractInfoController {
 	}
 	
 	
-	@GetMapping("extractInfoProductoOFerta")
+	@GetMapping("/extractInfoProductoOFerta")
 	public ResponseEntity<String> EjecutarExtracccionProductoOferta() {
 		try {
 			String result = extractinfo.extractProductoOferta();

@@ -56,7 +56,7 @@ public class FileStorageController {
 	@GetMapping("/executeJob")
 	public ResponseEntity<Boolean> executeJob() {		
 		try {
-			//Boolean result = storageService.executeJob();
+			Boolean result = storageService.executeJob();
 			return ResponseEntity.status(HttpStatus.OK).body(true);	
 		} catch (Exception e) {
 			Logger logger = Logger.getLogger(AuditoriaController.class.getName());
