@@ -92,8 +92,8 @@ public class FileStorageServiceImpl implements IFileStorageService {
 	@Override
 	public Boolean executeJob() throws Exception {
 		Job_Cargue_Log_Proceso_Incremento job = new Job_Cargue_Log_Proceso_Incremento();
-		String[][] retorno = job.runJob(new String[] {});
-		if(retorno.length > 0) {
+		int code = job.runJobInTOS(new String[] {});
+		if(code == 0) {
 			return true;
 		}else {
 			return false;
