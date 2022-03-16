@@ -36,7 +36,7 @@ public class FileStorageController {
 	@PostMapping("/upload")
 	public ResponseEntity<Boolean> uploadFile(@RequestParam("file") MultipartFile file) {
 		try {
-			Pattern pat = Pattern.compile("^OUT_MTARIFF_BATCH_([0-2][0-9]|3[0-1])(0[1-9]|1[0-2])(\\d{4})([01]?[0-9]|2[0-3])[0-5][0-9]([0-5][0-9])?.csv$");
+			Pattern pat = Pattern.compile("^OUT_IN_MTARIFF_BATCH_([0-2][0-9]|3[0-1])(0[1-9]|1[0-2])(\\d{4})([01]?[0-9]|2[0-3])[0-5][0-9]([0-5][0-9])?.csv$");
 			Matcher mat = pat.matcher(file.getOriginalFilename());
 			if (mat.find()) {
 				storageService.save(file);
