@@ -128,4 +128,11 @@ public class ReglasFachadaImpl implements IReglasFachada{
 		return new ResponseEntity<List<CalculoIncremento>>(list, HttpStatus.OK);
 	}
 
+
+	@Override
+	public ResponseEntity<List<CalculoIncremento>> filtrarCorregidos() throws Exception {
+		List<CalculoIncremento> list = (List<CalculoIncremento>) calculoDao.filtroPorCorregidos();
+		return new ResponseEntity<List<CalculoIncremento>>(list, HttpStatus.OK);
+	}
+
 }

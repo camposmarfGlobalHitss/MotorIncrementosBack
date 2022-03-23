@@ -17,10 +17,6 @@ import com.mit.entitys.Reglas;
 
 @Repository
 public interface IReglaDao extends CrudRepository<Reglas, Long>{
-
 	
-	
-	
-
 	
 }

@@ -239,10 +239,19 @@ public class CalculoIncrementoController {
 		} catch (Exception e) {
 			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
 			logger.log(Level.SEVERE, e.getMessage());
-			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-			
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);			
 		}
-		
+	}
+	
+	@GetMapping("/generarArchivoPLMCorregido")
+	public ResponseEntity<String> generarArchivoPLMCorregido(){
+		try {
+			return calculoFac.generarArchivoPLMCorregido();
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
+			logger.log(Level.SEVERE, e.getMessage());
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);	
+		}	
 	}
 	
 	public static final String DIRECTORY = System.getProperty("user.home") + "/Downloads/uploads";

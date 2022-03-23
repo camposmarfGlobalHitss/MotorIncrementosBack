@@ -32,6 +32,7 @@ import com.mit.dao.IParametrosIncrementosFija;
 import com.mit.dao.IUsuarioDao;
 import com.mit.dao.IUvtsDao;
 import com.mit.entitys.Auditoria;
+import com.mit.entitys.CalculoIncremento;
 import com.mit.entitys.Exclusiones;
 import com.mit.entitys.MovilRangosIncremento;
 import com.mit.entitys.ParametrosCalculoFija;
@@ -40,7 +41,8 @@ import com.mit.entitys.ParametrosIncrementoFija;
 import com.mit.entitys.Uvts;
 import com.mit.fachada.ICalculoIncremento;
 
-import archivo_de_entrada_a_eoc.job_archivo_entrada_a_eoc_2_0.Job_Archivo_Entrada_a_EOC;
+import job_imt_extraccion_clientes.job_archivo_entrada_a_eoc_2_0.Job_Archivo_Entrada_a_EOC;
+import job_imt_extraccion_clientes.job_archivo_reinyeccion_entrada_a_eoc_2_0.Job_Archivo_Reinyeccion_Entrada_a_EOC;
 import local_project.actualizar_imt_tbl_movil_producto_subtipo_oferta_0_1.Actualizar_IMT_TBL_MOVIL_PRODUCTO_SUBTIPO_OFERTA;
 import local_project.job_archivo_salida_e_0_1.Job_Archivo_Salida_E;
 
@@ -264,5 +266,16 @@ public class CalculoIncrementoFachadaImpl implements ICalculoIncremento {
 		
 		return list;
 	}
-	
+
+	@Override
+	public ResponseEntity<String> generarArchivoPLMCorregido() throws Exception {
+		Job_Archivo_Reinyeccion_Entrada_a_EOC job = new Job_Archivo_Reinyeccion_Entrada_a_EOC();
+		int exitcode = job.runJobInTOS(new String[] {});
+		if(exitcode == 0) {
+			return new ResponseEntity<String>("Descarga relizada correctamente ",HttpStatus.OK);
+		}else {
+			return new ResponseEntity<String>("Se ha producido un error en la operación",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 }

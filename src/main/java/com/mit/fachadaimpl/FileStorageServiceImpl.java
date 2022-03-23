@@ -19,7 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mit.dao.IParametrosDao;
 import com.mit.fachada.IFileStorageService;
 
-import local_project.job_cargue_log_proceso_incremento_0_1.Job_Cargue_Log_Proceso_Incremento;
+import imt.job_cargue_log_proceso_incremento_0_1.Job_Cargue_Log_Proceso_Incremento;
+
 
 @Service
 public class FileStorageServiceImpl implements IFileStorageService {
@@ -50,6 +51,7 @@ public class FileStorageServiceImpl implements IFileStorageService {
 	@Override
 	public void save(MultipartFile file) {
 		try {
+			parametro.actualizarNombreArchivoSalida(file.getOriginalFilename());
 			Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
 		} catch (Exception e) {
 			throw new RuntimeException("Could not store the file. Error: " + e.getMessage());

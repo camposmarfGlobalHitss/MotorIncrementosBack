@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mit.entitys.CalculoIncremento;
 import com.mit.entitys.Exclusiones;
 import com.mit.entitys.MovilRangosIncremento;
 import com.mit.entitys.ParametrosCalculoFija;
@@ -47,6 +48,5 @@ public interface ICalculoIncremento {
 
 	List<String> prueba2() throws Exception;
 	
-	
-
+	ResponseEntity<String> generarArchivoPLMCorregido() throws Exception;
 }

@@ -50,4 +50,8 @@ public interface ICalculoIncrementoDao extends CrudRepository<CalculoIncremento,
 	@Transactional(readOnly = true)
 	public List<String> consultaNoSujetasIncremento() throws Exception;
 	
+	@Query(value="SELECT * FROM IMT_TBL_CALCULO_INCREMENTO WHERE ESTADO_CARGO_RECURRENTE = 'CORREGIDO'", nativeQuery = true)
+	@Transactional(readOnly = true)
+	public List<CalculoIncremento> filtroPorCorregidos() throws Exception;
+	
 }
