@@ -122,6 +122,18 @@ public class ExtractInfoController {
 		return null;
 	}
 	
-
+	@GetMapping("/statsExtraccion/anterior")
+	public List<Auditoria> getStatsExtraccionAnterior(){
+		List<Auditoria> list = new ArrayList<>();
+		try {
+			list = extractinfo.getStatsExtraccionAnterior();
+			return list;
+			
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(AuditoriaController.class.getName());
+			logger.log(Level.SEVERE,e.getMessage());
+		}
+		return list;
+	}
 	
 }

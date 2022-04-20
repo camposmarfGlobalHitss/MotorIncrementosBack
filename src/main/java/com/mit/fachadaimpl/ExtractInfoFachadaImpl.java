@@ -96,6 +96,14 @@ public class ExtractInfoFachadaImpl implements IExtractInfoFachada{
 		System.out.println("ok!");
 		in.close();
 		return "OK";
+	}
+
+
+	@Override
+	public List<Auditoria> getStatsExtraccionAnterior() throws Exception {
+		List<Auditoria> list = new ArrayList<>();
+		list = extracInfoDao.getStatsExtraccionAnterior();
+		return list;
 	}	
 	
 	
