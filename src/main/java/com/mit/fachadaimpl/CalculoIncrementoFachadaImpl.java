@@ -340,6 +340,13 @@ public class CalculoIncrementoFachadaImpl implements ICalculoIncremento {
 		return new ResponseEntity<List<String>>(list, HttpStatus.OK);
 	}
 
+	@Override
+	public ResponseEntity<List<String>> variacionPreincremento() throws Exception {
+		List<String> list = new ArrayList<>();
+		list = calculoIncrementoDao.variacionPreincremento();
+		return new ResponseEntity<List<String>>(list, HttpStatus.OK);
+	}
+
 
 
 }

@@ -66,4 +66,6 @@ public interface ICalculoIncremento {
 	
 	ResponseEntity<List<String>> contratosDANE() throws Exception;
 	
+	ResponseEntity<List<String>> variacionPreincremento() throws Exception;
+	
 }

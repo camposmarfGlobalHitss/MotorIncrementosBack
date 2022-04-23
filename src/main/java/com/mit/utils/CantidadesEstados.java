@@ -15,13 +15,6 @@ public class CantidadesEstados {
 		this.cantidad = cantidad;
 		this.estado = estado; 
 	}
-	
-	public CantidadesEstados(long cantidad, String estado, String descripcion) {
-		super();
-		this.cantidad = cantidad;
-		this.estado = estado; 
-		this.setDescripcion(descripcion);
-	}
 
 	public String getEstado() {
 		return estado;

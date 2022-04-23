@@ -364,6 +364,17 @@ public class CalculoIncrementoController {
 		}
 	}
 	
+	@GetMapping("/variacionPreincremento")
+	public ResponseEntity<List<String>> variacionPreincremento(){
+		try {
+			return calculoFac.variacionPreincremento();
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
+			logger.log(Level.SEVERE, e.getMessage());
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@GetMapping("/pruebas.csv")
 	public void pruebas2(HttpServletResponse response){
 		try {		

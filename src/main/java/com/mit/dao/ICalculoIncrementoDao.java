@@ -86,8 +86,12 @@ public interface ICalculoIncrementoDao extends CrudRepository<CalculoIncremento,
 	@Transactional(readOnly = true)
 	public List<CalculoIncremento> cuentasNoIncrementadas() throws Exception;
 	
-	@Query(value= "SELECT cantidad, cod_dane, desc_ciudad FROM (SELECT b.cod_dane, b.desc_ciudad, COUNT(*) cantidad FROM IMT_TBL_CONTRATOS a JOIN IMT_TBL_CLIENTES b ON a.id_cliente = b.id_cliente GROUP BY b.cod_dane, b.desc_ciudad ORDER BY COUNT(*) DESC) WHERE ROWNUM <= 5", nativeQuery = true)
+	@Query(value= "SELECT cantidad, desc_ciudad FROM (SELECT DISTINCT(b.desc_ciudad) desc_ciudad, COUNT(*) cantidad FROM IMT_TBL_CONTRATOS a JOIN IMT_TBL_CLIENTES b ON a.id_cliente = b.id_cliente GROUP BY b.desc_ciudad ORDER BY COUNT(*) DESC) WHERE ROWNUM <= 5", nativeQuery = true)
 	@Transactional(readOnly = true)
 	public List<String> contratosDANE() throws Exception;
+	
+	@Query(value= "SELECT to_char(fec_proceso, 'yyyy-MM-dd') fec_proceso, SUM(cnt_registros) cnt_registros FROM imt_tbl_auditoria WHERE nom_objeto = 'imt_tbl_calculo_incremento' AND nom_accion = 'insert imt_tbl_calculo_incremento' GROUP BY to_char(fec_proceso, 'yyyy-MM-dd')", nativeQuery = true)
+	@Transactional(readOnly = true)
+	public List<String> variacionPreincremento() throws Exception;
 	
 }
