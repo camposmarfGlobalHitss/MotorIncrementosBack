@@ -128,8 +128,7 @@ public class CalculoIncrementoFachadaImpl implements ICalculoIncremento {
 
 	@Override
 	public ResponseEntity<List<ParametrosIncrementoFija>> obtenerParamentrosIncrementoFija() throws Exception {
-		List<ParametrosIncrementoFija> list = (List<ParametrosIncrementoFija>) paramIncFijaDao.findAll();
-		
+		List<ParametrosIncrementoFija> list = (List<ParametrosIncrementoFija>) paramIncFijaDao.findAll();		
 		return new ResponseEntity<List<ParametrosIncrementoFija>>(list, HttpStatus.OK);
 	}
 
