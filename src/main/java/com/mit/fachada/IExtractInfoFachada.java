@@ -17,6 +17,6 @@ public interface IExtractInfoFachada {
 
 	String extractCsOffers() throws Exception;
 
-	
+	List<Auditoria> getStatsExtraccionAnterior() throws Exception;
 
 }

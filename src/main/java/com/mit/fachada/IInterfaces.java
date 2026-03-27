@@ -1,20 +1,22 @@
 package com.mit.fachada;
 
+import java.io.ByteArrayInputStream;
+
 import org.springframework.http.ResponseEntity;
 
 public interface IInterfaces {
 
-	ResponseEntity<String> generarRepCtasIncremento() throws Exception;
+	ByteArrayInputStream generarRepCtasIncremento() throws Exception;
 
-	ResponseEntity<String> genRepCtasNoCumpPolInc() throws Exception;
+	ByteArrayInputStream genRepCtasNoCumpPolInc() throws Exception;
 
 	ResponseEntity<String> genRepCtasSujetasIncremento() throws Exception;
 
-	ResponseEntity<String> genRepCtasNoSujetasIncremento() throws Exception;
+	ByteArrayInputStream genRepCtasNoSujetasIncremento() throws Exception;
 
 	ResponseEntity<String> generarRepCtrolFijaYMovil() throws Exception;
 
-	ResponseEntity<String> generarInformePreIncremento() throws Exception;
+	ByteArrayInputStream generarInformePreIncremento() throws Exception;
 	
 
 }

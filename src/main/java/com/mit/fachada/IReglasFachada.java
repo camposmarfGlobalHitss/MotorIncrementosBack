@@ -27,5 +27,7 @@ public interface IReglasFachada {
 	ResponseEntity<List<CalculoIncremento>> traerCuentasPostExtraccion() throws Exception;
 
 	ResponseEntity<List<CalculoIncremento>> validarCondiciones() throws Exception;
+	
+	ResponseEntity<List<CalculoIncremento>> filtrarCorregidos() throws Exception;
 
 }

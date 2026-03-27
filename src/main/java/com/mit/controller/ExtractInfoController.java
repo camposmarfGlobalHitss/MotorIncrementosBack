@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,7 +39,7 @@ public class ExtractInfoController {
 	}
 	
 	
-	@GetMapping("extractInfoClientes")
+	@GetMapping("/extractInfoClientes")
 	public ResponseEntity<String> EjecutarExtracccionClientes() {
 		try {
 			String result = extractinfo.extractClientes();
@@ -56,7 +57,7 @@ public class ExtractInfoController {
 	}
 	
 	
-	@GetMapping("extractInfoContratos")
+	@GetMapping("/extractInfoContratos")
 	public ResponseEntity<String> EjecutarExtracccionContratos() {
 		try {
 			String result = extractinfo.extractContratos();
@@ -74,7 +75,7 @@ public class ExtractInfoController {
 	}
 	
 	
-	@GetMapping("extractInfoProductoOFerta")
+	@GetMapping("/extractInfoProductoOFerta")
 	public ResponseEntity<String> EjecutarExtracccionProductoOferta() {
 		try {
 			String result = extractinfo.extractProductoOferta();
@@ -121,6 +122,18 @@ public class ExtractInfoController {
 		return null;
 	}
 	
-
+	@GetMapping("/statsExtraccion/anterior")
+	public List<Auditoria> getStatsExtraccionAnterior(){
+		List<Auditoria> list = new ArrayList<>();
+		try {
+			list = extractinfo.getStatsExtraccionAnterior();
+			return list;
+			
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(AuditoriaController.class.getName());
+			logger.log(Level.SEVERE,e.getMessage());
+		}
+		return list;
+	}
 	
 }

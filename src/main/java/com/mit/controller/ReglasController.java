@@ -19,6 +19,7 @@ import org.hibernate.exception.SQLGrammarException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -163,7 +164,6 @@ public class ReglasController {
 		}
 	}
 	
-	
 	@PostMapping("/savefile")
 	   public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
 	      String message;
@@ -190,18 +190,16 @@ public class ReglasController {
 	         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
 	      }
 	   }
-	
-	
-	
-	
-	
-	
-	
-	
 
 	
-	
-	
-	
-	
+	@GetMapping("/calculoIncrementoCorregido")
+	public ResponseEntity<List<CalculoIncremento>> filtrarCorrgidos(){
+		try {
+			return reglafac.filtrarCorregidos();
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(ReglasController.class.getName());
+			logger.log(Level.SEVERE, e.getMessage());
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

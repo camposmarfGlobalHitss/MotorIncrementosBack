@@ -15,9 +15,28 @@ public interface IExtractInfoDao extends CrudRepository<Auditoria, Long> {
 	@Query(value="SELECT * \r\n" + 
 			"FROM imt_tbl_auditoria\r\n" + 
 			"WHERE ( nom_objeto, fec_proceso ) IN (SELECT nom_objeto, MAX(fec_proceso) FROM imt_tbl_auditoria WHERE\r\n" + 
-			"nom_objeto IN ( 'imt_tbl_producto_oferta', 'imt_tbl_clientes', 'imt_tbl_contratos' ) GROUP BY nom_objeto ) " 
+			"nom_objeto IN ( 'imt_tbl_producto_oferta', 'imt_tbl_clientes', 'imt_tbl_contratos', 'imt_tbl_tarifas_uso') GROUP BY nom_objeto ) " 
 			, nativeQuery = true)
 	@Transactional(readOnly = true)
 	List<Auditoria> getStatsExtraccion() throws RuntimeException;
+	
+	@Query(value="SELECT * \r\n"
+			+ "FROM imt_tbl_auditoria\r\n"
+			+ "WHERE ( nom_objeto, fec_proceso ) IN (\r\n"
+			+ "    SELECT nom_objeto, MAX(fec_proceso)\r\n"
+			+ "    FROM imt_tbl_auditoria \r\n"
+			+ "    WHERE nom_objeto IN ( 'imt_tbl_clientes', 'imt_tbl_contratos', 'imt_tbl_producto_oferta', 'imt_tbl_tarifas_uso') \r\n"
+			+ "    AND (nom_objeto, fec_proceso) NOT IN (\r\n"
+			+ "        SELECT nom_objeto, MAX(fec_proceso) \r\n"
+			+ "        FROM imt_tbl_auditoria \r\n"
+			+ "        WHERE nom_objeto IN ( 'imt_tbl_producto_oferta', 'imt_tbl_clientes', 'imt_tbl_contratos', 'imt_tbl_tarifas_uso') \r\n"
+			+ "        GROUP BY nom_objeto\r\n"
+			+ "    )\r\n"
+			+ "    GROUP BY nom_objeto\r\n"
+			+ ")"
+			+ "ORDER BY nom_objeto" 
+			, nativeQuery = true)
+	@Transactional(readOnly = true)
+	List<Auditoria> getStatsExtraccionAnterior() throws RuntimeException;
 	
 }

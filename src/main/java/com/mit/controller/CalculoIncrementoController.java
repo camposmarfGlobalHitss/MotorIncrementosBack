@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,6 +37,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +48,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mit.entitys.CalculoIncremento;
 import com.mit.entitys.Exclusiones;
 import com.mit.entitys.MovilRangosIncremento;
 import com.mit.entitys.ParametrosCalculoFija;
@@ -52,6 +56,7 @@ import com.mit.entitys.ParametrosCalculoMovil;
 import com.mit.entitys.ParametrosIncrementoFija;
 import com.mit.entitys.Uvts;
 import com.mit.fachada.ICalculoIncremento;
+import com.mit.utils.CantidadesEstados;
 import com.mit.utils.WriteDataToCSV;
 import com.sun.mail.iap.Response;
 
@@ -238,10 +243,19 @@ public class CalculoIncrementoController {
 		} catch (Exception e) {
 			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
 			logger.log(Level.SEVERE, e.getMessage());
-			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-			
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);			
 		}
-		
+	}
+	
+	@GetMapping("/generarArchivoPLMCorregido")
+	public ResponseEntity<String> generarArchivoPLMCorregido(){
+		try {
+			return calculoFac.generarArchivoPLMCorregido();
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
+			logger.log(Level.SEVERE, e.getMessage());
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);	
+		}	
 	}
 	
 	public static final String DIRECTORY = System.getProperty("user.home") + "/Downloads/uploads";
@@ -273,7 +287,93 @@ public class CalculoIncrementoController {
                 .headers(httpHeaders).body(resource);
     }
 	
+	@GetMapping("/calculoEstados")
+	public ResponseEntity<List<CantidadesEstados>> calculoEstados(){
+		try {
+			return calculoFac.calculoEstados();
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
+			logger.log(Level.SEVERE, e.getMessage());
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
+	@RequestMapping(value = {"/calculoPorEstados", "/calculoPorEstados/{estado}"})
+	public ResponseEntity<List<CalculoIncremento>> calculoPorEstados(@PathVariable(required = false) String estado){
+		try {
+			return calculoFac.calculoPorEstados(estado);
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
+			logger.log(Level.SEVERE, e.getMessage());
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/cfmPorEstrato")
+	public ResponseEntity<List<BigDecimal>> estratosCFM(){
+		try {
+			return calculoFac.estratosCFM();
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
+			logger.log(Level.SEVERE, e.getMessage());
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/cfmPorEstrato/{estrato}")
+	public ResponseEntity<List<CalculoIncremento>> cfmPorEstrato(@PathVariable() Integer estrato){
+		try {
+			return calculoFac.cfmPorEstrato(estrato);
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
+			logger.log(Level.SEVERE, e.getMessage());
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/cuentasIncNoInc")
+	public ResponseEntity<List<CantidadesEstados>> cuentasIncNoInc(){
+		try {
+			return calculoFac.cuentasIncNoInc();
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
+			logger.log(Level.SEVERE, e.getMessage());
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/cuentasIncNoInc/{tipo}")
+	public ResponseEntity<List<CalculoIncremento>> cuentasIncNoInc(@PathVariable(required = true) String tipo){
+		try {
+			return calculoFac.cuentasIncNoInc(tipo);
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
+			logger.log(Level.SEVERE, e.getMessage());
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/contratosDANE")
+	public ResponseEntity<List<String>> contratosDANE(){
+		try {
+			return calculoFac.contratosDANE();
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
+			logger.log(Level.SEVERE, e.getMessage());
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/variacionPreincremento")
+	public ResponseEntity<List<String>> variacionPreincremento(){
+		try {
+			return calculoFac.variacionPreincremento();
+		} catch (Exception e) {
+			Logger logger = Logger.getLogger(CalculoIncrementoController.class.getName());
+			logger.log(Level.SEVERE, e.getMessage());
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
 	@GetMapping("/pruebas.csv")
 	public void pruebas2(HttpServletResponse response){
@@ -285,9 +385,6 @@ public class CalculoIncrementoController {
 //			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-	}
-	
-	
-	
+	}	
 	
 }

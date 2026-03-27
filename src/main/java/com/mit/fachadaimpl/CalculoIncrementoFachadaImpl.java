@@ -3,6 +3,7 @@ package com.mit.fachadaimpl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,6 +33,7 @@ import com.mit.dao.IParametrosIncrementosFija;
 import com.mit.dao.IUsuarioDao;
 import com.mit.dao.IUvtsDao;
 import com.mit.entitys.Auditoria;
+import com.mit.entitys.CalculoIncremento;
 import com.mit.entitys.Exclusiones;
 import com.mit.entitys.MovilRangosIncremento;
 import com.mit.entitys.ParametrosCalculoFija;
@@ -39,8 +41,10 @@ import com.mit.entitys.ParametrosCalculoMovil;
 import com.mit.entitys.ParametrosIncrementoFija;
 import com.mit.entitys.Uvts;
 import com.mit.fachada.ICalculoIncremento;
+import com.mit.utils.CantidadesEstados;
 
-import archivo_de_entrada_a_eoc.job_archivo_entrada_a_eoc_2_0.Job_Archivo_Entrada_a_EOC;
+import job_imt_extraccion_clientes.job_archivo_entrada_a_eoc_2_0.Job_Archivo_Entrada_a_EOC;
+import job_imt_extraccion_clientes.job_archivo_reinyeccion_entrada_a_eoc_2_0.Job_Archivo_Reinyeccion_Entrada_a_EOC;
 import local_project.actualizar_imt_tbl_movil_producto_subtipo_oferta_0_1.Actualizar_IMT_TBL_MOVIL_PRODUCTO_SUBTIPO_OFERTA;
 import local_project.job_archivo_salida_e_0_1.Job_Archivo_Salida_E;
 
@@ -55,6 +59,9 @@ public class CalculoIncrementoFachadaImpl implements ICalculoIncremento {
 	
 	@Autowired
 	private IAuditoriaDao auditDao;
+	
+	@Autowired
+	private ICalculoIncrementoDao calculoIncrementoDao;
 	
 	@Autowired
 	private IParametrosIncrementosFija paramIncFijaDao;
@@ -121,8 +128,7 @@ public class CalculoIncrementoFachadaImpl implements ICalculoIncremento {
 
 	@Override
 	public ResponseEntity<List<ParametrosIncrementoFija>> obtenerParamentrosIncrementoFija() throws Exception {
-		List<ParametrosIncrementoFija> list = (List<ParametrosIncrementoFija>) paramIncFijaDao.findAll();
-		
+		List<ParametrosIncrementoFija> list = (List<ParametrosIncrementoFija>) paramIncFijaDao.findAll();		
 		return new ResponseEntity<List<ParametrosIncrementoFija>>(list, HttpStatus.OK);
 	}
 
@@ -264,9 +270,82 @@ public class CalculoIncrementoFachadaImpl implements ICalculoIncremento {
 		
 		return list;
 	}
-	
-	
 
-	
-	
+	@Override
+	public ResponseEntity<String> generarArchivoPLMCorregido() throws Exception {
+		Job_Archivo_Reinyeccion_Entrada_a_EOC job = new Job_Archivo_Reinyeccion_Entrada_a_EOC();
+		int exitcode = job.runJobInTOS(new String[] {});
+		if(exitcode == 0) {
+			return new ResponseEntity<String>("Descarga relizada correctamente ",HttpStatus.OK);
+		}else {
+			return new ResponseEntity<String>("Se ha producido un error en la operación",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override
+	public ResponseEntity<List<CantidadesEstados>> calculoEstados() throws Exception {
+		List<CantidadesEstados> list = new ArrayList<>();
+		list = calculoIncrementoDao.calculoEstados();
+		return new ResponseEntity<List<CantidadesEstados>>(list, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<CalculoIncremento>> calculoPorEstados(String estado) throws Exception {
+		List<CalculoIncremento> list = new ArrayList<>();
+		if(estado != null) {
+			list = calculoIncrementoDao.calculoPorEstados(estado);
+		}else {
+			list = calculoIncrementoDao.calculoPorEstados();
+		}
+		return new ResponseEntity<List<CalculoIncremento>>(list, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<BigDecimal>> estratosCFM() throws Exception {
+		List<BigDecimal> list = new ArrayList<>();
+		list = calculoIncrementoDao.estratosCFM();
+		return new ResponseEntity<List<BigDecimal>>(list, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<CalculoIncremento>> cfmPorEstrato(Integer estrato) throws Exception {
+		List<CalculoIncremento> list = new ArrayList<>();
+		list = calculoIncrementoDao.cfmPorEstrato(estrato);
+		return new ResponseEntity<List<CalculoIncremento>>(list, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<CantidadesEstados>> cuentasIncNoInc() throws Exception {
+		List<CantidadesEstados> list = new ArrayList<>();
+		list = calculoIncrementoDao.cuentasIncNoInc();
+		return new ResponseEntity<List<CantidadesEstados>>(list, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<CalculoIncremento>> cuentasIncNoInc(String tipo) throws Exception {
+		List<CalculoIncremento> list = new ArrayList<>();
+		if(tipo.equals("INC")) {
+			list = calculoIncrementoDao.cuentasIncrementadas();
+		}else {
+			list = calculoIncrementoDao.cuentasNoIncrementadas();
+		}
+		return new ResponseEntity<List<CalculoIncremento>>(list, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<String>> contratosDANE() throws Exception {
+		List<String> list = new ArrayList<>();
+		list = calculoIncrementoDao.contratosDANE();
+		return new ResponseEntity<List<String>>(list, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<String>> variacionPreincremento() throws Exception {
+		List<String> list = new ArrayList<>();
+		list = calculoIncrementoDao.variacionPreincremento();
+		return new ResponseEntity<List<String>>(list, HttpStatus.OK);
+	}
+
+
+
 }
